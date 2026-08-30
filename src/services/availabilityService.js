@@ -2,11 +2,14 @@ import * as roomTypeRepo from '../repositories/roomTypeRepo.js';
 import * as availabilityRepo from '../repositories/availabilityRepo.js';
 import { quote } from './pricingService.js';
 import { diffDays } from '../lib/dates.js';
+import { notFound } from '../lib/errors.js';
 
 export function search({ checkIn, checkOut, roomTypeId, guests }) {
-  const types = roomTypeId
-    ? [roomTypeRepo.findById(roomTypeId)].filter(Boolean)
-    : roomTypeRepo.findAll();
+  if (roomTypeId && !roomTypeRepo.findById(roomTypeId)) {
+    throw notFound('ROOM_TYPE_NOT_FOUND', `Unknown room type ${roomTypeId}`);
+  }
+
+  const types = roomTypeId ? [roomTypeRepo.findById(roomTypeId)] : roomTypeRepo.findAll();
 
   return types
     .filter((t) => (guests ? t.capacity >= guests : true))

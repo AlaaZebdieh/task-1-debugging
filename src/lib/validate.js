@@ -1,5 +1,15 @@
-import { isValidDate } from './dates.js';
+import { diffDays, isValidDate } from './dates.js';
 import { badRequest } from './errors.js';
+
+export function assertStayDates(checkIn, checkOut) {
+  if (checkIn >= checkOut) {
+    throw badRequest('INVALID_INPUT', 'checkOut must be after checkIn', { checkIn, checkOut });
+  }
+  const nights = diffDays(checkIn, checkOut);
+  if (nights > 180) {
+    throw badRequest('INVALID_INPUT', 'Stay must not exceed 180 nights', { checkIn, checkOut, nights });
+  }
+}
 
 export function requireDate(value, field) {
   if (!isValidDate(value)) {
