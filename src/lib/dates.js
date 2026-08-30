@@ -22,6 +22,16 @@ export function diffDays(from, to) {
   return Math.round((toUTC(to) - toUTC(from)) / DAY);
 }
 
+/** Whether date d falls in [start, end). */
+export function dateInRange(date, start, end) {
+  return start <= date && date < end;
+}
+
+/** Whether [aStart, aEnd) and [bStart, bEnd) share at least one date. */
+export function rangesOverlap(aStart, aEnd, bStart, bEnd) {
+  return aStart < bEnd && aEnd > bStart;
+}
+
 /** Nights actually slept: [checkIn, checkOut). The departure date is not a night. */
 export function enumerateNights(checkIn, checkOut) {
   const nights = [];

@@ -1,4 +1,4 @@
-import { addDays, maxDate, minDate } from '../lib/dates.js';
+import { dateInRange, enumerateNights } from '../lib/dates.js';
 import { percentOf } from '../lib/money.js';
 import * as rateRepo from '../repositories/rateRepo.js';
 
@@ -7,25 +7,15 @@ export const RESORT_FEE_CENTS = 1500;
 
 /**
  * Walks the rate calendar and returns one priced night per night of the stay.
- * The stay is split into a segment per season so that a stay running from one
- * season into the next is billed at each season's own rate.
+ * Each night in [checkIn, checkOut) is priced from the season that contains it.
  */
 export function resolveNightlyRates(roomTypeId, checkIn, checkOut) {
   const seasons = rateRepo.findSeasons(roomTypeId, checkIn, checkOut);
-  const lastNight = addDays(checkOut, -1);
-  const nights = [];
-
-  for (const season of seasons) {
-    const segmentStart = maxDate(checkIn, season.start_date);
-    const segmentEnd = minDate(lastNight, season.end_date);
-    if (segmentStart > segmentEnd) continue;
-
-    for (let date = segmentStart; date <= segmentEnd; date = addDays(date, 1)) {
-      nights.push({ date, season: season.season, rateCents: season.nightly_rate_cents });
-    }
-  }
-
-  return nights;
+  return enumerateNights(checkIn, checkOut).flatMap((date) => {
+    const season = seasons.find((s) => dateInRange(date, s.start_date, s.end_date));
+    if (!season) return [];
+    return [{ date, season: season.season, rateCents: season.nightly_rate_cents }];
+  });
 }
 
 export function quote(roomTypeId, checkIn, checkOut) {
