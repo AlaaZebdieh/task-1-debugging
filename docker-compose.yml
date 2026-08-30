@@ -1,0 +1,8 @@
+services:
+  pms:
+    build: .
+    container_name: riverside-pms
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000

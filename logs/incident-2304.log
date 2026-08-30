@@ -1,0 +1,18 @@
+# Riverside PMS - booking-engine log excerpt
+# Attached by D. Ferrand (Reservations) to incident 2304
+
+2026-08-19T08:12:03Z INFO  http GET /availability roomTypeId=STD checkIn=2026-11-10 checkOut=2026-11-12
+2026-08-19T08:12:03Z DEBUG availabilityRepo.countOverlapping roomType=STD booked=6 rooms=6
+2026-08-19T08:12:03Z INFO  http 200 GET /availability 3ms
+
+2026-08-19T08:12:44Z INFO  http GET /availability roomTypeId=STD checkIn=2026-11-11 checkOut=2026-11-13
+2026-08-19T08:12:44Z DEBUG availabilityRepo.countOverlapping roomType=STD booked=4 rooms=6
+2026-08-19T08:12:44Z INFO  http 200 GET /availability 2ms
+
+2026-08-19T08:15:20Z INFO  http POST /reservations guest="walk-in" roomTypeId=STD checkIn=2026-11-10 checkOut=2026-11-12
+2026-08-19T08:15:20Z WARN  reservationService NO_ROOMS_AVAILABLE roomType=STD 2026-11-10..2026-11-12
+2026-08-19T08:15:20Z INFO  http 409 POST /reservations 5ms
+
+2026-08-19T09:31:02Z INFO  http PATCH /reservations/RES-11150 checkIn=2026-12-02 checkOut=2026-12-07
+2026-08-19T09:31:02Z WARN  reservationService NO_ROOMS_AVAILABLE roomType=SUI 2026-12-02..2026-12-07
+2026-08-19T09:31:02Z INFO  http 409 PATCH /reservations/RES-11150 4ms

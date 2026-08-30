@@ -1,0 +1,23 @@
+# Riverside PMS - booking-engine log excerpt
+# Attached by S. Okoro (Front Office) to incident 2291
+
+2026-08-14T11:02:41Z INFO  http POST /quotes roomTypeId=DLX checkIn=2026-08-28 checkOut=2026-09-03
+2026-08-14T11:02:41Z DEBUG rateRepo.findSeasons roomType=DLX window=2026-08-28..2026-09-03 rows=2
+2026-08-14T11:02:41Z DEBUG pricing segments=2 nights=7 roomTotal=162000
+2026-08-14T11:02:41Z INFO  http 200 POST /quotes 6ms
+2026-08-14T11:03:07Z INFO  http POST /reservations guest="M. Achterberg" roomTypeId=DLX
+2026-08-14T11:03:07Z DEBUG folio.replace reservation=RES-10842 lines=9 balance=182940
+2026-08-14T11:03:07Z INFO  http 201 POST /reservations 11ms
+2026-08-14T11:03:09Z INFO  mail.confirmation sent reservation=RES-10842 template=booking_confirmed
+
+2026-08-18T16:41:55Z INFO  http GET /reservations/RES-10842/folio
+2026-08-18T16:41:55Z INFO  http 200 GET /reservations/RES-10842/folio 3ms
+2026-08-18T16:44:12Z INFO  http POST /quotes roomTypeId=DLX checkIn=2026-08-28 checkOut=2026-09-03
+2026-08-18T16:44:12Z DEBUG pricing segments=2 nights=7 roomTotal=162000
+2026-08-18T16:44:12Z INFO  http 200 POST /quotes 4ms
+
+# For comparison, a stay in the same week that the manager says looks correct:
+2026-08-18T16:52:30Z INFO  http POST /quotes roomTypeId=DLX checkIn=2026-08-24 checkOut=2026-08-30
+2026-08-18T16:52:30Z DEBUG rateRepo.findSeasons roomType=DLX window=2026-08-24..2026-08-30 rows=1
+2026-08-18T16:52:30Z DEBUG pricing segments=1 nights=6 roomTotal=126000
+2026-08-18T16:52:30Z INFO  http 200 POST /quotes 4ms
